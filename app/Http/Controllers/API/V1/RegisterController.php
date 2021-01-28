@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Device;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Tymon\JWTAuth\JWT;
+use App\Services\RegisteringDeviceService;
 use Tymon\JWTAuth\JWTAuth;
 
 /**
@@ -45,13 +43,19 @@ class RegisterController extends Controller
     private $jwt = NULL;
 
     /**
+     * @var RegisteringDeviceService
+     */
+    private $service = NULL;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(JWTAuth $jwt)
+    public function __construct(JWTAuth $jwt, RegisteringDeviceService $service)
     {
         $this->jwt = $jwt;
+        $this->service = $service;
         $this->middleware('guest');
     }
 
@@ -77,12 +81,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $device = Device::create([
+        $attributes = ['uid' => $data['uid'], 'app_id' => $data['app_id']];
+        $data = [
             'uid' => $data['uid'],
             'app_id' => $data['app_id'],
             'language' => $data['language'],
-            'operating_system' => $data['operating_system'],
-        ]);
+            'operating_system' => $data['operating_system']
+        ];
+        $device = $this->service->execute($attributes, $data);
         return $device;
     }
 
