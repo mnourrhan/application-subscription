@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1',
     ], function () {
     Route::group(['middleware' => 'api'], function () {
-        Route::post('register', 'API\V1\RegisterController@register');
+        Route::post('register', 'API\V1\RegisterController@register')->name('app.register');
     });
 });
