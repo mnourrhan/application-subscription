@@ -63,5 +63,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'google.purchase.valid.headers' => \App\Http\Middleware\GooglePurchaseHeaderValid::class,
+        'apple.purchase.valid.headers' => \App\Http\Middleware\ApplePurchaseHeaderValid::class,
     ];
 }

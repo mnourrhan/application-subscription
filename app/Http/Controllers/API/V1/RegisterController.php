@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Enums\OperatingSystemsEnum;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -71,7 +72,8 @@ class RegisterController extends Controller
             'uid' => ['required', 'string', 'max:169'],
             'app_id' => ['required', 'string', 'max:169'],
             'language' => ['required', 'string', 'max:50'],
-            'operating_system' => ['required', 'string', 'max:169'],
+            'operating_system' => ['required', 'string', 'max:20',
+                'in:' . implode(",", OperatingSystemsEnum::OPERATING_SYSTEMS)],
         ]);
     }
 

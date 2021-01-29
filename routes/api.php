@@ -18,5 +18,12 @@ Route::group(['prefix' => 'v1',
     ], function () {
     Route::group(['middleware' => 'api'], function () {
         Route::post('register', 'API\V1\RegisterController@register')->name('app.register');
+        Route::get('verify/google/purchase', 'API\V1\MockingGooglePurchaseRequestController')
+            ->middleware('google.purchase.valid.headers')->name('verify.google.app');
+        Route::get('verify/apple/purchase', 'API\V1\MockingApplePurchaseRequestController')
+            ->middleware('apple.purchase.valid.headers')->name('verify.apple.app');
+        Route::group(['middleware' => 'auth:api'], function() {
+            Route::post('/purchase', 'API\V1\PurchaseController');
+        });
     });
 });
