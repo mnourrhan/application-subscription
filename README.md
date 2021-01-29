@@ -29,7 +29,8 @@ statu with fail value will be returned when error occur
 Specifally, this API uses:
 
 - 200: "Successful", often return from a GET/POST request
-- 422: "Failed", often return from a GET/POST request
+- 422: "Failed", invalid request often return from a GET/POST request
+- 500: "Failed", server error often return from a GET/POST request
 
 ## Application device register [/api/v1/register]
 A single device object.
@@ -70,7 +71,7 @@ The states *id*, *created_at* and *updated_at* are assigned by the API at the mo
             }
         }
 
-+ Response 400  
++ Response 422  
   
       {
           "message": "The given data was invalid.",
@@ -78,5 +79,66 @@ The states *id*, *created_at* and *updated_at* are assigned by the API at the mo
               "app_id": [
                 "The app id field is required."
               ],...
+          }
+      }
+
+## Application purchase verification [/api/v1/purchase]
+
+The Subscription resource has the following attributes:
+
+- id
+- device_id
+- receipt
+- expiry_date
+- created_at
+- updated_at
+
+The states *id*, *created_at* and *updated_at* are assigned by the API at the moment of creation.
+
++ Request (application/json)
+
+    + Headers
+
+            Accept: application/json
+            Authorization: Bearer "token ..."
+
+    + Body
+
+            {
+                "receipt": "12345"
+            }
+
++ Response 200
+
+        {
+            "message": "Purchase verified successfully",
+            "data": {
+            }
+        }
+
++ Response 422
+
+      {
+          "message": "The given data was invalid.",
+          "errors": {
+              "receipt": [
+                "The receipt field is required."
+              ],...
+          }
+      }
+
++ Response 500
+
+      {
+          "message": "Server error occurred. Please try again later!",
+          "errors": {
+          }
+      }
+
++ Response 406
+
+      {
+          "message": "The receipt you have sent is not verified!",
+          "errors": {
           }
       }
