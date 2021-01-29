@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Enums\OperatingSystemsEnum;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Services\RegisteringDeviceService;
 use Tymon\JWTAuth\JWTAuth;
@@ -71,7 +74,8 @@ class RegisterController extends Controller
             'uid' => ['required', 'string', 'max:169'],
             'app_id' => ['required', 'string', 'max:169'],
             'language' => ['required', 'string', 'max:50'],
-            'operating_system' => ['required', 'string', 'max:169'],
+            'operating_system' => ['required', 'string', 'max:20',
+                'in:' . implode(",", OperatingSystemsEnum::OPERATING_SYSTEMS)],
         ]);
     }
 
@@ -107,7 +111,7 @@ class RegisterController extends Controller
         $token = $this->jwt->fromUser($device);
         $data = ['token' => $token];
         return $request->wantsJson()
-                ? successResponse(__('Registered successfully'), $data)
-                : redirect($this->redirectPath());
+            ? successResponse(__('Registered successfully'), $data)
+            : redirect($this->redirectPath());
     }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Device extends Authenticatable implements JWTSubject
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *

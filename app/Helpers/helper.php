@@ -21,3 +21,18 @@ if (!function_exists('successResponse')) {
         return response()->json(['message' => $message, 'data' => $data], 200);
     }
 }
+
+if (!function_exists('convertDateToUTC')) {
+
+    /**
+     * @param $datetime
+     * @return string
+     * @throws Exception
+     */
+    function convertDateToUTC($datetime)
+    {
+        $datetimeUTC = new DateTime($datetime);
+        $datetimeUTC->setTimezone(new DateTimeZone("UTC"));
+        return $datetimeUTC->format("Y-m-d H:i:s");
+    }
+}
