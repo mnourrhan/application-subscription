@@ -39,10 +39,8 @@ class PurchaseService
     }
 
 
-    public function execute($request)
+    public function execute($device, $receipt)
     {
-        $device = auth()->user();
-        $receipt = $request->get('receipt');
         $isSubscriptionExist = $this->isSubscriptionExist($device, $receipt);
         if($isSubscriptionExist)
             return successResponse(__('The sent receipt is already verified!'));
