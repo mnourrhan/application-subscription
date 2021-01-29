@@ -7,9 +7,7 @@
 namespace App\Services;
 
 use App\Enums\OperatingSystemsEnum;
-use App\Repositories\DevicesRepository;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Description of MockingPurchaseRequestService

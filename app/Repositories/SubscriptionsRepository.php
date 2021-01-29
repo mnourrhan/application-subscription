@@ -23,4 +23,9 @@ class SubscriptionsRepository extends BaseRepository
     {
         parent::__construct($model);
     }
+
+    public function getCurrentSubscription($device){
+        return $this->where('device_id', $device->id)
+                ->orderBy('expiry_date', 'desc')->first();
+    }
 }

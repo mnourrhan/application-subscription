@@ -142,3 +142,44 @@ The states *id*, *created_at* and *updated_at* are assigned by the API at the mo
           "errors": {
           }
       }
+
+## Check Subscription Status [/api/v1/check/subscription/status]
+
+The Subscription resource has the following attributes:
+
++ Request (application/json)
+
+    + Headers
+
+            Accept: application/json
+            Authorization: Bearer "token ..."
+
+    + Body
+
+            {
+                
+            }
+
++ Response 200
+
+        {
+            "message": "The subscription is active! or The subscription is inactive!",
+            "data": {
+            }
+        }
+
++ Response 500
+
+      {
+          "message": "Server error occurred. Please try again later!",
+          "errors": {
+          }
+      }
+
++ Response 406
+
+      {
+          "message": "No subscriptions existing for this app!",
+          "errors": {
+          }
+      }

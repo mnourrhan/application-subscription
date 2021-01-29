@@ -24,6 +24,7 @@ Route::group(['prefix' => 'v1',
             ->middleware('apple.purchase.valid.headers')->name('verify.apple.app');
         Route::group(['middleware' => 'auth:api'], function() {
             Route::post('/purchase', 'API\V1\PurchaseController')->name('app.purchase');
+            Route::get('/check/subscription/status', 'API\V1\SubscriptionStatusController')->name('app.check.subscription');
         });
     });
 });
