@@ -10,7 +10,6 @@ use App\Enums\OperatingSystemsEnum;
 use App\Repositories\SubscriptionsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Description of PurchaseService
@@ -50,7 +49,6 @@ class PurchaseService
 
         $result = $this->handleVerifyingPurchaseRequest($receipt, $device);
 
-        Log::info($result);
         if($result['status']){
             $data = $result['response'];
             if($data['status']){  //verified

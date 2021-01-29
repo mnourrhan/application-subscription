@@ -8,6 +8,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Services\RegisteringDeviceService;
 use Tymon\JWTAuth\JWTAuth;
@@ -102,14 +104,19 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+        try {
+            $this->validator($request->all())->validate();
 
-        event(new Registered($device = $this->create($request->all())));
+            event(new Registered($device = $this->create($request->all())));
 
-        $token = $this->jwt->fromUser($device);
-        $data = ['token' => $token];
-        return $request->wantsJson()
+            $token = $this->jwt->fromUser($device);
+            $data = ['token' => $token];
+            return $request->wantsJson()
                 ? successResponse(__('Registered successfully'), $data)
                 : redirect($this->redirectPath());
+        }catch (\Exception $ex){
+            Log::info($ex);
+            return failureResponse(Response::HTTP_INTERNAL_SERVER_ERROR, __('Server error occurred. Please try again later!'));
+        }
     }
 }
