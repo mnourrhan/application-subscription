@@ -9,12 +9,7 @@ use Illuminate\Http\Request;
 class MockingGooglePurchaseRequestController extends Controller
 {
 
-    public function __invoke(
-        Request $request,
-        MockingPurchaseRequestService $service
-    ) {
-        $service->execute($request);
-
-        return successResponse(__('Registered successfully'));
+    public function __invoke(Request $request, MockingPurchaseRequestService $service) {
+        return $service->execute($request);
     }
 }

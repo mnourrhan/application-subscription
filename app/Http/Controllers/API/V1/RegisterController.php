@@ -104,19 +104,14 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        try {
-            $this->validator($request->all())->validate();
+        $this->validator($request->all())->validate();
 
-            event(new Registered($device = $this->create($request->all())));
+        event(new Registered($device = $this->create($request->all())));
 
-            $token = $this->jwt->fromUser($device);
-            $data = ['token' => $token];
-            return $request->wantsJson()
-                ? successResponse(__('Registered successfully'), $data)
-                : redirect($this->redirectPath());
-        }catch (\Exception $ex){
-            Log::info($ex);
-            return failureResponse(Response::HTTP_INTERNAL_SERVER_ERROR, __('Server error occurred. Please try again later!'));
-        }
+        $token = $this->jwt->fromUser($device);
+        $data = ['token' => $token];
+        return $request->wantsJson()
+            ? successResponse(__('Registered successfully'), $data)
+            : redirect($this->redirectPath());
     }
 }

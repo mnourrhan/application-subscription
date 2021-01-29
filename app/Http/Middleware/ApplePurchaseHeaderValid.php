@@ -17,8 +17,8 @@ class ApplePurchaseHeaderValid
      */
     public function handle($request, Closure $next)
     {
-        if ($request->header('username') === env('APPLE_PURCHASE_USERNAME')
-            && $request->header('password') === env('APPLE_PURCHASE_PASSWORD') ) {
+        if ($request->header('username') === config('mocking-APIs.APPLE_PURCHASE_USERNAME')
+            && $request->header('password') === config('mocking-APIs.APPLE_PURCHASE_PASSWORD') ) {
             return $next($request);
         }
 

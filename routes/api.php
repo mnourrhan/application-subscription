@@ -23,7 +23,7 @@ Route::group(['prefix' => 'v1',
         Route::get('verify/apple/purchase', 'API\V1\MockingApplePurchaseRequestController')
             ->middleware('apple.purchase.valid.headers')->name('verify.apple.app');
         Route::group(['middleware' => 'auth:api'], function() {
-            Route::post('/purchase', 'API\V1\PurchaseController');
+            Route::post('/purchase', 'API\V1\PurchaseController')->name('app.purchase');
         });
     });
 });

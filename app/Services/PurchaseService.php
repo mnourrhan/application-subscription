@@ -10,6 +10,7 @@ use App\Enums\OperatingSystemsEnum;
 use App\Repositories\SubscriptionsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Description of PurchaseService
@@ -63,13 +64,13 @@ class PurchaseService
     }
 
     private function handleVerifyingPurchaseRequest($receipt, $device){
-        $username = env('mocking-APIs.GOOGLE_PURCHASE_USERNAME');
-        $password = env('mocking-APIs.GOOGLE_PURCHASE_PASSWORD');
+        $username = config('mocking-APIs.GOOGLE_PURCHASE_USERNAME');
+        $password = config('mocking-APIs.GOOGLE_PURCHASE_PASSWORD');
         $route = route('verify.google.app');
 
         if($device['operating_system'] == OperatingSystemsEnum::IOS){
-            $username = env('APPLE_PURCHASE_USERNAME');
-            $password = env('APPLE_PURCHASE_PASSWORD');
+            $username = config('mocking-APIs.APPLE_PURCHASE_USERNAME');
+            $password = config('mocking-APIs.APPLE_PURCHASE_PASSWORD');
             $route = route('verify.apple.app');
         }
 
