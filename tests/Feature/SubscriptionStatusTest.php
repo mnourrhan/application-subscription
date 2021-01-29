@@ -2,8 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Device;
+use App\Models\Subscription;
+use App\Models\User;
+use Carbon\Carbon;
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class SubscriptionStatusTest extends TestCase
@@ -21,14 +26,16 @@ class SubscriptionStatusTest extends TestCase
             'operating_system' => 'android'
         ];
 
+        $device = factory(Device::class)->create($data);
         $deviceResponse = $this->json('POST', route('app.register'), $data);
         $token = $deviceResponse->json()['data']['token'];
 
-        $this->withHeaders([
-            'Authorization' => 'Bearer '. $token,
-            'Accept' => 'application/json'
-        ])->json('POST', route('app.purchase'), ['receipt' => '1231']);
-
+        $subscription = factory(Subscription::class)
+            ->create([
+                    'device_id' => $device->id,
+                    'receipt' => '123',
+                    'expiry_date' => Carbon::now()->addDay()
+            ]);
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $token,
             'Accept' => 'application/json'
